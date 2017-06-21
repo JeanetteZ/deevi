@@ -141,6 +141,7 @@ var ConversationPanel = (function() {
         // Class to start fade in animation
           currentDiv.classList.add('load');
           scrollToChatBottom();
+          addEventListenerToButtons(currentDiv);
         },
         multiplier * 3000 * (index + 1));
       });
@@ -155,6 +156,25 @@ var ConversationPanel = (function() {
 
     }
 
+  }
+
+  //This function adds eventlistener to buttons and when clicked, extracts message in buttons and sends them to Watson
+  function addEventListenerToButtons(currentDiv) {
+    var buttons = currentDiv.getElementsByClassName("option-button");
+
+    var sendMessageFromButton = function() {
+        var text = this.getAttribute("value");
+        var latestResponse = Api.getResponsePayload();
+        if (latestResponse) {
+          context = latestResponse.context;
+        }
+
+        Api.sendRequest(text, context);
+    };
+
+    for (var i = 0; i < buttons.length; i++) {
+        buttons[i].addEventListener('click', sendMessageFromButton, false);
+    }
   }
 
   // Checks if the given typeValue matches with the user "name", the Watson "name", or neither
