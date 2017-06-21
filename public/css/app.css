@@ -429,3 +429,60 @@ html{
   font-weight: normal;
   font-style: normal;
 }
+
+
+/* typing indicator */
+.typing-indicator {
+  background-color: #E6E7ED;
+  will-change: transform;
+  width: auto;
+  border-radius: 10px;
+  padding: 10px;
+  display: table;
+  margin: 0 auto;
+  position: relative;
+  animation: 2s bulge infinite ease-out;
+  float:left;
+  /*margin-left: 10px;*/
+}
+.typing-indicator::before, .typing-indicator::after { /*get rid of dots TODO*/
+  content: '';
+  position: absolute;
+  bottom: -10px;
+  left: -8px;
+  height: 0px;
+  width: 0px;
+  border-radius: 50%;
+  background-color: #E6E7ED;
+}
+.typing-indicator::after { /*get rid of dots TODO*/
+  height: 0px;
+  width: 0px;
+  left: -10px;
+  bottom: -10px;
+}
+.typing-indicator span {
+  height: 5px;
+  width: 5px;
+  float: left;
+  margin: 0 1px;
+  background-color: #9E9EA1;
+  display: block;
+  border-radius: 50%;
+  opacity: 0.4;
+}
+.typing-indicator span:nth-of-type(1) {
+  animation: 1s blink infinite 0.3333s;
+}
+.typing-indicator span:nth-of-type(2) {
+  animation: 1s blink infinite 0.6666s;
+}
+.typing-indicator span:nth-of-type(3) {
+  animation: 1s blink infinite 0.9999s;
+}
+
+@keyframes blink {
+  50% {
+    opacity: 1;
+  }
+}

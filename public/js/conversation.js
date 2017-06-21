@@ -131,14 +131,30 @@ var ConversationPanel = (function() {
         });
       }
 
-      messageDivs.forEach(function(currentDiv) {
-        chatBoxElement.appendChild(currentDiv);
+
+      var messageBubbleElement = document.getElementsByClassName("typing-indicator")[0];
+      messageBubbleElement.style.display = "block";
+      var multiplier  = typeValue == settings.authorTypes.watson ? 1 : 0;
+      messageDivs.forEach(function(currentDiv, index) {
+        setTimeout(function(){
+           chatBoxElement.insertBefore(currentDiv, messageBubbleElement);
         // Class to start fade in animation
-        currentDiv.classList.add('load');
+          currentDiv.classList.add('load');
+          scrollToChatBottom();
+        },
+        multiplier * 3000 * (index + 1));
       });
-      // Move chat to the most recent messages when new messages are added
-      scrollToChatBottom();
+
+      if (typeValue == settings.authorTypes.watson) {
+        console.log('msg divs length:' + messageDivs.length);
+        setTimeout(function(){
+              messageBubbleElement.style.display = "none";
+          },
+          3000 * messageDivs.length);
+      }
+
     }
+
   }
 
   // Checks if the given typeValue matches with the user "name", the Watson "name", or neither
