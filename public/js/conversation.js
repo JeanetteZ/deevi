@@ -121,6 +121,9 @@ var ConversationPanel = (function() {
     // update payload to include service suggestions - inserted by MH and JZ
     ServiceSuggestions.makeServiceSuggestions(newPayload);
 
+    // update payload to include right suggestions - inserted by JZ
+    RightSuggestions.makeRightSuggestions(newPayload);
+
     if (isUser !== null && textExists) {
       // Create new message DOM element
       var messageDivs = buildMessageDomElements(newPayload, isUser);
@@ -147,14 +150,14 @@ var ConversationPanel = (function() {
           scrollToChatBottom();
           addEventListenerToButtons(currentDiv);  
         },
-        0 * multiplier * 3000 * (index + 1)); //delay if Watson, no delay if user
+        multiplier * 3000 * (index + 1)); //delay if Watson, no delay if user
       });
 
       if (typeValue == settings.authorTypes.watson) {
         setTimeout(function(){
               messageBubbleElement.style.display = "none";
           },
-          0 * 3000 * messageDivs.length);
+          3000 * messageDivs.length);
       }
 
     }
