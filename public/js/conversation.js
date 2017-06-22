@@ -117,6 +117,10 @@ var ConversationPanel = (function() {
     var isUser = isUserMessage(typeValue);
     var textExists = (newPayload.input && newPayload.input.text)
       || (newPayload.output && newPayload.output.text);
+
+    // update payload to include service suggestions - inserted by MH and JZ
+    ServiceSuggestions.makeServiceSuggestions(newPayload);
+
     if (isUser !== null && textExists) {
       // Create new message DOM element
       var messageDivs = buildMessageDomElements(newPayload, isUser);
@@ -131,33 +135,34 @@ var ConversationPanel = (function() {
         });
       }
 
-
+      //modified by Michal Huzevka & Jeanette Zhang
       var messageBubbleElement = document.getElementsByClassName("typing-indicator")[0];
       messageBubbleElement.style.display = "block";
-      var multiplier  = typeValue == settings.authorTypes.watson ? 1 : 0;
+      var multiplier  = typeValue == settings.authorTypes.watson ? 1 : 0; //multiplier representing Watson/User
       messageDivs.forEach(function(currentDiv, index) {
         setTimeout(function(){
            chatBoxElement.insertBefore(currentDiv, messageBubbleElement);
         // Class to start fade in animation
           currentDiv.classList.add('load');
           scrollToChatBottom();
-          addEventListenerToButtons(currentDiv);
+          addEventListenerToButtons(currentDiv);  
         },
-        multiplier * 3000 * (index + 1));
+        0 * multiplier * 3000 * (index + 1)); //delay if Watson, no delay if user
       });
 
       if (typeValue == settings.authorTypes.watson) {
-        console.log('msg divs length:' + messageDivs.length);
         setTimeout(function(){
               messageBubbleElement.style.display = "none";
           },
-          3000 * messageDivs.length);
+          0 * 3000 * messageDivs.length);
       }
 
     }
 
   }
 
+
+  //modified by Michal Huzevka & Jeanette Zhang
   //This function adds eventlistener to buttons and when clicked, extracts message in buttons and sends them to Watson
   function addEventListenerToButtons(currentDiv) {
     var buttons = currentDiv.getElementsByClassName("option-button");
@@ -177,9 +182,11 @@ var ConversationPanel = (function() {
     }
   }
 
+  // modified by Jeanette Zhang & Michal Huzevka
   // Checks if the given typeValue matches with the user "name", the Watson "name", or neither
   // Returns true if user, false if Watson, and null if neither
   // Used to keep track of whether a message was from the user or Watson
+  // Allows app to insert delay & typing indicator only if it's a message from Watson
   function isUserMessage(typeValue) {
     if (typeValue === settings.authorTypes.user) {
       return true;
@@ -189,7 +196,8 @@ var ConversationPanel = (function() {
     return null;
   }
 
-  // Constructs new DOM element from a message payload
+  // modified by Michal Huzevka & Jeanette Zhang
+  // Constructs new DOM element (typing indicator bubble) from a message payload
   function buildMessageDomElements(newPayload, isUser) {
     var textArray = isUser ? newPayload.input.text : newPayload.output.text;
     if (Object.prototype.toString.call( textArray ) !== '[object Array]') {
