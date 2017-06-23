@@ -61,8 +61,8 @@ var RightSuggestions = (function() {
       	for (i=0; i<offenses.length-1;i++){
       	payload.output.text+=offenses[i]+", ";
       } payload.output.text+=" and "+offenses[i]+".<br/><br/>";
-      } else { //no offenses caught, which isn't possible atm due to conditions in the Watson dialogue node
-      	payload.output.text="something gone wrong!";
+      } else { //no offenses caught e.g. offense is general offense
+      	payload.output.text=""; //TODO prompt user for more details about offense
       }
       
       payload.output.text+= "According to the law, domestic violence includes:"+suggestions;
