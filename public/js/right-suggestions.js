@@ -66,7 +66,7 @@ var RightSuggestions = (function() {
       }
       
       payload.output.text+= "According to the law, domestic violence includes:"+suggestions;
-	    Api.sendRequest("anything_else", context); // Finally, send "anything_else" to Watson to get the catch-all reply
+	    Api.sendRequest("", context); // Finally, send "anything_else" to Watson to get the catch-all reply
       //TODO Hide anything_else message from user
     }
   }

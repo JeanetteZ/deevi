@@ -31,7 +31,6 @@ var ServiceSuggestions = (function() {
       } else if (context.gender=="male"){
           payload.output.text = male_services;
       }
-
       if(context.lgbti=="yes" | "unsure"){
         payload.output.text += "<br/><br/>" + lgbti_services;
       }
