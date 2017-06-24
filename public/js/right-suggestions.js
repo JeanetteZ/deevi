@@ -18,9 +18,9 @@ var RightSuggestions = (function() {
   var voffense_rights = "verbal abuses such as: <br/>\
   - swearing and continual humiliation <br/>\
   - attacks on intelligence, sexuality, body image and capacity as a parent and spouse <br/>\
-  ... whether in private or public <br/>"
+  ... whether in private or public <br/>";
   //TODO: stalking/harassment, financial abuse offenses - see Google Doc
-
+  var goffense_rights = "physical abuses such as pushing, punching or locking the victim; sexual abuses such as forcing to have sex; and verbal offenses such as swearing or humiliating";
   return {
     makeRightSuggestions: makeRightSuggestions
   };
@@ -39,7 +39,7 @@ var RightSuggestions = (function() {
       var offenses=[];
       var suggestions="";
 
-      if (context.poffense!=null){
+    if (context.poffense!=null){
       	  offenses.push("physical abuse");
           suggestions += "<br/>" + poffense_rights;
       } 
@@ -53,19 +53,21 @@ var RightSuggestions = (function() {
       } 
 
       //Ugly code - needs rewriting
-      payload.output.text= "What your " +context.perpetrator+" did to you may amount to domestic violence. In particular: ";
+      payload.output.text= "What your " +context.perpetrator+" did to you may amount to domestic violence.";
       if (offenses.length==1){
-      	payload.output.text+=offenses[0]+".<br/><br/>";
+      	payload.output.text+="In particular: "+offenses[0]+".<br/><br/>";
       } else if (offenses.length>1){
+        payload.output.text+="In particular: "
       	var i;
       	for (i=0; i<offenses.length-1;i++){
       	payload.output.text+=offenses[i]+", ";
       } payload.output.text+=" and "+offenses[i]+".<br/><br/>";
       } else { //no offenses caught e.g. offense is general offense
-      	payload.output.text=""; //TODO prompt user for more details about offense
+      	//TODO prompt user for more details about offense
+        suggestions = goffense_rights;
       }
       
-      payload.output.text+= "According to the law, domestic violence includes:"+suggestions;
+      payload.output.text+= "According to the law, domestic violence includes: "+suggestions;
 	    Api.sendRequest("", context); // Finally, send "anything_else" to Watson to get the catch-all reply
       //TODO Hide anything_else message from user
     }
