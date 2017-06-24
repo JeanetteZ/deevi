@@ -20,7 +20,11 @@ var RightSuggestions = (function() {
   - attacks on intelligence, sexuality, body image and capacity as a parent and spouse <br/>\
   ... whether in private or public <br/>";
   //TODO: stalking/harassment, financial abuse offenses - see Google Doc
-  var goffense_rights = "physical abuses such as pushing, punching or locking the victim; sexual abuses such as forcing to have sex; and verbal offenses such as swearing or humiliating";
+  //goffense_rights: generic offenses e.g. "abuse" 
+  var goffense_rights = "<br/>\
+  - physical abuses such as pushing, punching or locking the victim <br/>\
+  - sexual abuses such as forcing to have sex and <br/>\
+  - verbal offenses such as swearing or humiliating";
   return {
     makeRightSuggestions: makeRightSuggestions
   };
@@ -53,7 +57,7 @@ var RightSuggestions = (function() {
       } 
 
       //Ugly code - needs rewriting
-      payload.output.text= "What your " +context.perpetrator+" did to you may amount to domestic violence.";
+      payload.output.text= "What your " +context.perpetrator+" did to you may amount to domestic violence. ";
       if (offenses.length==1){
       	payload.output.text+="In particular: "+offenses[0]+".<br/><br/>";
       } else if (offenses.length>1){
